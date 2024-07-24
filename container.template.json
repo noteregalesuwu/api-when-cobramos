@@ -5,13 +5,13 @@
         "environment": {
         },
         "ports": {
-          "80": "HTTP"
+          "3000": "HTTP"
         }
       }
     },
     "publicEndpoint": {
       "containerName": "app",
-      "containerPort": 80,
+      "containerPort": 3000,
       "healthCheck": {
         "healthyThreshold": 2,
         "unhealthyThreshold": 2,
