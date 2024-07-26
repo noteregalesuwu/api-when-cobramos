@@ -21,6 +21,14 @@ jobs:
           username: ${{ secrets.REGISTRY_USER }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
+      - name: Set enviroments variables
+        run: |
+          echo "DB_HOST=${{secrets.DB_HOST}}" >> .env
+          echo "DB_NAME=${{secrets.DB_NAME}}" >> .env
+          echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env
+          echo "DB_USERNAME=${{secrets.DB_USERNAME}}" >> .env
+          echo "DB_PORT=${{secrets.DB_PORT}}" >> .env
+
       - name: Build Container
         env:
           REGISTRY: ${{ vars.REGISTRY }}
