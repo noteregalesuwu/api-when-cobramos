@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Logger } from '@nestjs/common';
 import { VisitorService } from './visitors.service';
 
 @Controller('visitors')
@@ -14,6 +14,7 @@ export class VisitorController {
       };
     }
     try {
+      Logger.debug(`Registering visitor: ${name}`);
       return this.visitorService.registerVisitor(name);
     } catch {
       return {
