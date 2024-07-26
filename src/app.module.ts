@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { VisitorModule } from './modules/visitors/visitors.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -10,9 +11,10 @@ import { VisitorModule } from './modules/visitors/visitors.module';
       type: 'sqlite',
       database: 'database.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: false,
+      synchronize: true,
     }),
     VisitorModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
