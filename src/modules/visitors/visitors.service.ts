@@ -12,7 +12,10 @@ export class VisitorService {
 
   async registerVisitor(name: string): Promise<Visitor> {
     try {
-      const newVisitor = this.visitorRepository.create({ name });
+      const newVisitor = this.visitorRepository.create({
+        name,
+        fecha_insert: new Date(),
+      });
       return this.visitorRepository.save(newVisitor);
     } catch (e) {
       Logger.error(e.message);

@@ -7,4 +7,7 @@ export class Visitor {
 
   @Column()
   name: string;
+
+  @Column()
+  fecha_insert: Date;
 }
