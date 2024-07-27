@@ -32,6 +32,7 @@ jobs:
           echo "FIREBASE_ADMIN_PRIVATE_KEY=${{secrets.FIREBASE_ADMIN_PRIVATE_KEY}}" >> .env
           echo "SECRET_KEY=${{secrets.SECRET_KEY}}" >> .env
           echo "FCM_ENDPOINT=${{secrets.FCM_ENDPOINT}}" >> .env
+          echo "JWT_SECRET=${{secrets.JWT_SECRET}}" >> .env
 
       - name: Build Container
         env:
