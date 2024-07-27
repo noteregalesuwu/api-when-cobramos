@@ -4,6 +4,7 @@ import { Notification } from 'src/entities/notifications.entity';
 import { Repository } from 'typeorm';
 import { JWT } from 'google-auth-library';
 import { ConfigService } from '@nestjs/config';
+import { Notification_status } from 'src/entities/notification_status.entity';
 
 @Injectable()
 export class NotificationsService {
@@ -11,6 +12,8 @@ export class NotificationsService {
     @InjectRepository(Notification)
     private visitorRepository: Repository<Notification>,
     private configService: ConfigService,
+    @InjectRepository(Notification_status)
+    private notificationStatusRepository: Repository<Notification_status>,
   ) {}
 
   async getAllTokens(): Promise<string[]> {
@@ -85,7 +88,7 @@ export class NotificationsService {
         },
       };
 
-      await fetch(this.configService.get('FCM_ENDPOINT'), {
+      const response = await fetch(this.configService.get('FCM_ENDPOINT'), {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -93,8 +96,24 @@ export class NotificationsService {
         },
         body: JSON.stringify(message),
       });
-
-      Logger.log('Notificación enviada');
+      const data = await response.json();
+      if (!data.error) {
+        const notificationStatus = this.notificationStatusRepository.create({
+          token,
+          fecha_envio: new Date(),
+          envio_status: 'Enviado',
+          response: JSON.stringify(data),
+        });
+        await this.notificationStatusRepository.save(notificationStatus);
+      } else {
+        const notificationStatus = this.notificationStatusRepository.create({
+          token,
+          fecha_envio: new Date(),
+          envio_status: 'Error',
+          response: JSON.stringify(data),
+        });
+        await this.notificationStatusRepository.save(notificationStatus);
+      }
     } catch (e) {
       console.error('Error al enviar la notificación:', e.message);
     }
