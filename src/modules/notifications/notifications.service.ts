@@ -41,8 +41,21 @@ export class NotificationsService {
       const existingToken = await this.notificationRepository.findOneBy({
         token,
       });
-      // Logger.log('Existing token:', existingToken);
-      if (existingToken.id) {
+
+      /**
+       * If no token is found, create a new one, else update the existing one
+       */
+      if (existingToken === null) {
+        const newToken = this.notificationRepository.create({
+          token,
+          insert_date: new Date(),
+        });
+        await this.notificationRepository.save(newToken);
+        return {
+          status: 200,
+          message: 'Token  registered successfully',
+        };
+      } else {
         existingToken.insert_date = new Date();
         await this.notificationRepository.update(existingToken.id, {
           insert_date: new Date(),
@@ -52,15 +65,6 @@ export class NotificationsService {
           message: 'Token updated on ' + new Date(),
         };
       }
-      const newToken = this.notificationRepository.create({
-        token,
-        insert_date: new Date(),
-      });
-      await this.notificationRepository.save(newToken);
-      return {
-        status: 200,
-        message: 'Token registered',
-      };
     } catch (e) {
       Logger.error(e.message);
       return {
