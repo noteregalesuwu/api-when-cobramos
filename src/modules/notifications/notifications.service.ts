@@ -10,7 +10,7 @@ import { Notification_status } from 'src/entities/notification_status.entity';
 export class NotificationsService {
   constructor(
     @InjectRepository(Notification)
-    private visitorRepository: Repository<Notification>,
+    private notificationRepository: Repository<Notification>,
     private configService: ConfigService,
     @InjectRepository(Notification_status)
     private notificationStatusRepository: Repository<Notification_status>,
@@ -18,7 +18,7 @@ export class NotificationsService {
 
   async getAllTokens(): Promise<string[]> {
     try {
-      const tokens = await this.visitorRepository.find();
+      const tokens = await this.notificationRepository.find();
       return tokens.map((token) => token.token);
     } catch (e) {
       Logger.error(e.message);
@@ -35,11 +35,28 @@ export class NotificationsService {
       };
     }
     try {
-      const newToken = this.visitorRepository.create({
+      /**
+       * If no token is found, create a new one, else update the existing one
+       */
+      const existingToken = await this.notificationRepository.findOneBy({
+        token,
+      });
+      // Logger.log('Existing token:', existingToken);
+      if (existingToken.id) {
+        existingToken.insert_date = new Date();
+        await this.notificationRepository.update(existingToken.id, {
+          insert_date: new Date(),
+        });
+        return {
+          status: 200,
+          message: 'Token updated on ' + new Date(),
+        };
+      }
+      const newToken = this.notificationRepository.create({
         token,
         insert_date: new Date(),
       });
-      await this.visitorRepository.save(newToken);
+      await this.notificationRepository.save(newToken);
       return {
         status: 200,
         message: 'Token registered',

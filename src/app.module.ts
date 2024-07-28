@@ -8,6 +8,7 @@ import { HealthModule } from './modules/health/health.module';
 import { MysqlModule } from './modules/database/mysql.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { DebugReportModule } from './modules/debug_report/debug_report.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     NotificationsModule,
     HealthModule,
     AuthModule,
+    DebugReportModule,
   ],
   controllers: [AppController],
   providers: [AppService],
