@@ -95,17 +95,38 @@ export class NotificationsService {
   async sendNotification(
     title: string,
     body: string,
+    image: string,
     token: string,
   ): Promise<void> {
     try {
       const accessToken = await this.authGoogleAPI();
       const message = {
         message: {
-          token,
           notification: {
             title,
             body,
+            image,
           },
+          android: {
+            notification: {
+              image,
+            },
+          },
+          apns: {
+            payload: {
+              aps: {
+                'mutable-content': 1,
+                alert: {
+                  title,
+                  body,
+                },
+              },
+            },
+            fcm_options: {
+              image,
+            },
+          },
+          token,
         },
       };
 

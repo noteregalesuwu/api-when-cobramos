@@ -14,6 +14,8 @@ export class Notification_status {
   @Column()
   envio_status: string;
 
-  @Column()
+  @Column({
+    type: 'text',
+  })
   response: string;
 }

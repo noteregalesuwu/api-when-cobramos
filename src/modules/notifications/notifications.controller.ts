@@ -36,6 +36,7 @@ export class NotificationsController {
   async sendBulkNotification(
     @Body('title') title: string,
     @Body('body') body: string,
+    @Body('image') image: string = '',
   ) {
     if (!title || !body) {
       throw new HttpException(
@@ -47,7 +48,7 @@ export class NotificationsController {
       const tokens = await this.notificationsService.getAllTokens();
 
       tokens.forEach((token) => {
-        this.notificationsService.sendNotification(title, body, token);
+        this.notificationsService.sendNotification(title, body, image, token);
       });
       return {
         statusCode: 200,
