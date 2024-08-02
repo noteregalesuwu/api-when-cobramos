@@ -11,7 +11,9 @@ export class Debug_report {
   @Column()
   register_date: Date;
 
-  @Column()
+  @Column({
+    type: 'text',
+  })
   error_message: string;
 
   @Column()

@@ -9,6 +9,9 @@ import { MysqlModule } from './modules/database/mysql.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { DebugReportModule } from './modules/debug_report/debug_report.module';
+import { NewsModule } from './modules/scrapping/news.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { CronModule } from './modules/cron/cron.module';
 
 @Module({
   imports: [
@@ -21,12 +24,15 @@ import { DebugReportModule } from './modules/debug_report/debug_report.module';
         limit: 10,
       },
     ]),
+    ScheduleModule.forRoot(),
     MysqlModule,
     VisitorModule,
     NotificationsModule,
     HealthModule,
     AuthModule,
     DebugReportModule,
+    NewsModule,
+    CronModule,
   ],
   controllers: [AppController],
   providers: [AppService],
