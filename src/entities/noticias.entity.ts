@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Noticias {
@@ -30,6 +30,5 @@ export class Noticias {
   @Column({
     unique: true,
   })
-  @Index({ unique: true })
   hash_id: string;
 }
