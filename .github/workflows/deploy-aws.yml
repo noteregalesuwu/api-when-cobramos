@@ -34,6 +34,19 @@ jobs:
           echo "FCM_ENDPOINT=${{secrets.FCM_ENDPOINT}}" >> .env
           echo "JWT_SECRET=${{secrets.JWT_SECRET}}" >> .env
 
+      - name: cat enviroments variables
+        run: |
+          echo "DB_HOST=${{secrets.DB_HOST}}" | sed 's/./& /g'
+          echo "DB_NAME=${{secrets.DB_NAME}}" | sed 's/./& /g'
+          echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" | sed 's/./& /g'
+          echo "DB_USERNAME=${{secrets.DB_USERNAME}}" | sed 's/./& /g'
+          echo "DB_PORT=${{secrets.DB_PORT}}" | sed 's/./& /g'
+          echo "FIREBASE_ADMIN_EMAIL=${{secrets.FIREBASE_ADMIN_EMAIL}}" | sed 's/./& /g'
+          echo "FIREBASE_ADMIN_PRIVATE_KEY=${{secrets.FIREBASE_ADMIN_PRIVATE_KEY}}" | sed 's/./& /g'
+          echo "SECRET_KEY=${{secrets.SECRET_KEY}}" | sed 's/./& /g'
+          echo "FCM_ENDPOINT=${{secrets.FCM_ENDPOINT}}" | sed 's/./& /g'
+          echo "JWT_SECRET=${{secrets.JWT_SECRET}}" | sed 's/./& /g'
+
       - name: Build Container
         env:
           REGISTRY: ${{ vars.REGISTRY }}
